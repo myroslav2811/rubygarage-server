@@ -43,7 +43,6 @@ const SignInWithFormik = withFormik({
             passwordRepeat: values.passwordRepeat
         })
             .then((res) => {
-                console.log(1, res)
                 setStatus(true);
             })
             .catch(err => {
