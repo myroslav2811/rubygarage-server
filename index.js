@@ -2,18 +2,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
+require('dotenv').config();
 
 const { signUp, auth, refreshTokens, getProjects, putProject, deleteProject, getTasks, putTask, deleteTask, changeTaskStatus, updateProject, updateTask, checkToken, logOut, updateTaskPriority } = require('./controllers')
 const { checkAuth } = require('./middleware');
 
-mongoose.connect('mongodb://localhost:27017/TODO', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false }, (err) => {
-    if (err) {
-        throw err;
-    }
-
-    console.log('Connected to DB');
-
-});
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/ruby-garage');
 
 const app = express();
 
@@ -39,4 +33,6 @@ app.get('/check-token', checkAuth, checkToken);
 app.delete('/projects/:id', checkAuth, deleteProject);
 app.delete('/task/:projectId/:id', checkAuth, deleteTask);
 
-app.listen(3000, () => console.log("Listening on port 3000"));
+const port = process.env.PORT || 3000;
+
+app.listen(port, () => console.log("Listening on port 3000"));
