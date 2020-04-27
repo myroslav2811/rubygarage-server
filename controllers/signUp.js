@@ -4,7 +4,7 @@ const { User } = require('../db/models');
 
 module.exports = (req, res) => {
     const { username, password, passwordRepeat } = req.body;
-    if (password === passwordRepeat && password.length > 6) {
+    if (password == passwordRepeat && password.length >= 6) {
         const user = new User({ username, password: bcrypt.hashSync(password, 12) });
         user.save((err, item) => {
             if (err) {
